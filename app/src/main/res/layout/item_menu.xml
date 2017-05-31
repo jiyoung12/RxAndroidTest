@@ -3,16 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/custom_bg"
-    android:clickable="true"
-    >
+    android:clickable="true">
 
     <TextView
         android:id="@+id/tv_menu_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:padding="16dp"
-        android:textSize="18sp"
         android:focusable="false"
-        />
+        android:padding="16dp"
+        android:textSize="18sp" />
 
 </LinearLayout>
