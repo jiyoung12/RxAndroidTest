@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener{
 
         List<ExampleActivityAndName> exampleList = new ArrayList<>();
         exampleList.add(new ExampleActivityAndName(Example1Activity.class, "Login"));
-        exampleList.add(new ExampleActivityAndName(Example2Activity.class, "RecyclerView"));
+        exampleList.add(new ExampleActivityAndName(Example2Activity.class, "Search"));
 
         return exampleList;
 

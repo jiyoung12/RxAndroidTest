@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jiyoung.rxandroidexamples.CitiesAdapter;
 import com.jiyoung.rxandroidexamples.ClickListener;
 import com.jiyoung.rxandroidexamples.R;
@@ -20,21 +21,23 @@ import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class Example2Activity extends AppCompatActivity implements ClickListener{
+public class Example2Activity extends AppCompatActivity implements ClickListener {
 
     private EditText mSearchInput;
     private RecyclerView mSearchResult;
     private TextView mNoResult;
     private CitiesAdapter citiesAdapter;
-    
-    private PublishSubject<String> mSearchResultSubject;
-    private Subscription mTextWatchSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +46,12 @@ public class Example2Activity extends AppCompatActivity implements ClickListener
 
         initLayout();
         createObservables();
-        listenToSearchInput();
 
     }
 
     private void initLayout() {
         mSearchInput = (EditText) findViewById(R.id.edit_search_input);
         mNoResult = (TextView) findViewById(R.id.text_no_result);
-        Log.e("init RecyclerView");
         mSearchResult = (RecyclerView) findViewById(R.id.recycler_search_result);
         mSearchResult.setLayoutManager(new LinearLayoutManager(this));
         citiesAdapter = new CitiesAdapter(this);
@@ -60,89 +61,52 @@ public class Example2Activity extends AppCompatActivity implements ClickListener
     }
 
     private void createObservables() {
-        mSearchResultSubject = PublishSubject.create();
-        mSearchResultSubject
-                .debounce(400, TimeUnit.MILLISECONDS)
+
+        RxTextView.textChanges(mSearchInput)
                 .observeOn(Schedulers.io())
-                .map(new Function<String, List<String>>(){
+                .map(charSequence -> searchForCity(charSequence.toString()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<String>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        Log.e("onSubscribe");
+                    }
 
                     @Override
-                    public List<String> apply(String s) throws Exception {
-                        return searchForCity(s);
+                    public void onNext(@NonNull List<String> strings) {
+                        Log.e("onNext : " + strings);
+                        showSearchResult(strings);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e("onError");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("onComplete");
                     }
                 });
-//                .map(new Func1<String, List<String>>() {
-//                    @Override
-//                    public List<String> call(String s) {
-//                        return searchForCity(s);
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<List<String>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onSubscribe(@NonNull Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<String> cities) {
-//                        showSearchResult(cities);
-//                    }
-//                });
     }
 
-    private void showSearchResult(List<String> cities){
-        if (cities != null){
+    private void showSearchResult(List<String> cities) {
+        if (cities != null) {
             mNoResult.setVisibility(View.GONE);
             mSearchResult.setVisibility(View.VISIBLE);
             citiesAdapter.setCities(cities);
-            // // TODO: 2017. 5. 31. adapter cities set
-            
-        }else{
+            citiesAdapter.notifyDataSetChanged();
+
+        } else {
             mNoResult.setVisibility(View.VISIBLE);
             mSearchResult.setVisibility(View.GONE);
+            citiesAdapter.notifyDataSetChanged();
         }
-    }
-
-    private void listenToSearchInput(){
-        mSearchInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mSearchResultSubject.onNext(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
     }
 
     public List<String> searchForCity(String searchString) {
         try {
-            // "Simulate" the delay of network.
-            Thread.sleep(500);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
