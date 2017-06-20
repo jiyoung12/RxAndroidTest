@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.jiyoung.rxandroidexamples.example.Example1Activity;
 import com.jiyoung.rxandroidexamples.example.Example2Activity;
+import com.jiyoung.rxandroidexamples.example.Example3Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener{
         List<ExampleActivityAndName> exampleList = new ArrayList<>();
         exampleList.add(new ExampleActivityAndName(Example1Activity.class, "Login"));
         exampleList.add(new ExampleActivityAndName(Example2Activity.class, "Search"));
+        exampleList.add(new ExampleActivityAndName(Example3Activity.class, "Retrofit"));
 
         return exampleList;
 

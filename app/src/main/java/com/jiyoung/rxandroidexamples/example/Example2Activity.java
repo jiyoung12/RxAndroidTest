@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jiyoung.rxandroidexamples.BaseActivity;
 import com.jiyoung.rxandroidexamples.CitiesAdapter;
 import com.jiyoung.rxandroidexamples.ClickListener;
 import com.jiyoung.rxandroidexamples.R;
@@ -32,7 +33,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class Example2Activity extends AppCompatActivity implements ClickListener {
+public class Example2Activity extends BaseActivity implements ClickListener {
 
     private EditText mSearchInput;
     private RecyclerView mSearchResult;
@@ -91,7 +92,7 @@ public class Example2Activity extends AppCompatActivity implements ClickListener
     }
 
     private void showSearchResult(List<String> cities) {
-        if (cities != null) {
+        if (cities != null && cities.size() != 0 ) {
             mNoResult.setVisibility(View.GONE);
             mSearchResult.setVisibility(View.VISIBLE);
             citiesAdapter.setCities(cities);
@@ -105,11 +106,11 @@ public class Example2Activity extends AppCompatActivity implements ClickListener
     }
 
     public List<String> searchForCity(String searchString) {
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(300);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return getMatchingCities(searchString);
     }
 
