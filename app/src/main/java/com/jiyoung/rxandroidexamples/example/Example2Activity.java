@@ -16,6 +16,8 @@ import com.jiyoung.rxandroidexamples.BaseActivity;
 import com.jiyoung.rxandroidexamples.CitiesAdapter;
 import com.jiyoung.rxandroidexamples.ClickListener;
 import com.jiyoung.rxandroidexamples.R;
+import com.jiyoung.rxandroidexamples.net.async.DataService;
+import com.jiyoung.rxandroidexamples.net.model.MainWeather;
 import com.jiyoung.rxandroidexamples.utils.Log;
 
 import org.reactivestreams.Subscription;
@@ -38,7 +40,9 @@ public class Example2Activity extends BaseActivity implements ClickListener {
     private EditText mSearchInput;
     private RecyclerView mSearchResult;
     private TextView mNoResult;
+    private List<String> mSearchList;
     private CitiesAdapter citiesAdapter;
+    private DataService dataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,26 @@ public class Example2Activity extends BaseActivity implements ClickListener {
         setContentView(R.layout.activity_example2);
 
         initLayout();
+        initService();
         createObservables();
+
+    }
+
+    private void initService() {
+
+        dataService = new DataService(this);
+        dataService.setEventListener(new DataService.EventListener() {
+            @Override
+            public void requestWeatherInfo_Success(MainWeather weather) {
+                super.requestWeatherInfo_Success(weather);
+                Log.d(weather.getName());
+            }
+
+            @Override
+            public void requestWeatherInfo_Fail() {
+                super.requestWeatherInfo_Fail();
+            }
+        });
 
     }
 
@@ -126,11 +149,16 @@ public class Example2Activity extends BaseActivity implements ClickListener {
                 toReturn.add(city);
             }
         }
+        mSearchList = toReturn;
         return toReturn;
     }
 
     @Override
     public void itemClicked(View view, int position) {
+        if (mSearchList != null){
+            Log.e(mSearchList.get(position));
+            dataService.requestWeatherInfo(mSearchList.get(position));
+        }
         Toast.makeText(this, "position" + position, Toast.LENGTH_SHORT).show();
     }
 }

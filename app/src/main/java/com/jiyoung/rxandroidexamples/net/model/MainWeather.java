@@ -7,7 +7,7 @@ package com.jiyoung.rxandroidexamples.net.model;
 public class MainWeather {
 
     private Coord coord;
-    private Weather weather;
+    private Weather[] weather;
     private String base;
     private Main main;
     private Wind wind;
@@ -26,11 +26,11 @@ public class MainWeather {
         this.coord = coord;
     }
 
-    public Weather getWeather() {
+    public Weather[] getWeather() {
         return weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(Weather[] weather) {
         this.weather = weather;
     }
 

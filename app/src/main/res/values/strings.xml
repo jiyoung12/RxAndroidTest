@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RxAndroidExamples</string>
+    <string name="kakao_app_key">7e6e479cbe10008fcaae8a2ca6a23add</string>
 </resources>
