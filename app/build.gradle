@@ -41,8 +41,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.code.gson:gson:2.8.1'
-    testCompile 'junit:junit:4.12'
-
-    // 카카오 로그인 sdk를 사용하기 위해 필요.
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

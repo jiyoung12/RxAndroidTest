@@ -1,11 +1,8 @@
 package com.jiyoung.rxandroidexamples.example;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,20 +17,14 @@ import com.jiyoung.rxandroidexamples.net.async.DataService;
 import com.jiyoung.rxandroidexamples.net.model.MainWeather;
 import com.jiyoung.rxandroidexamples.utils.Log;
 
-import org.reactivestreams.Subscription;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 public class Example2Activity extends BaseActivity implements ClickListener {
 
@@ -114,6 +105,10 @@ public class Example2Activity extends BaseActivity implements ClickListener {
                 });
     }
 
+    /**
+     * 도시 리스트에 따른 뷰 변경
+     * @param cities 도시 리스트
+     */
     private void showSearchResult(List<String> cities) {
         if (cities != null && cities.size() != 0 ) {
             mNoResult.setVisibility(View.GONE);

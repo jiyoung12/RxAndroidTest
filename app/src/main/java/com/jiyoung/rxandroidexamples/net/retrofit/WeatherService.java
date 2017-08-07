@@ -1,10 +1,8 @@
 package com.jiyoung.rxandroidexamples.net.retrofit;
 
 import com.jiyoung.rxandroidexamples.net.model.MainWeather;
-import com.jiyoung.rxandroidexamples.net.model.Response;
 
-
-import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -13,8 +11,8 @@ import retrofit2.http.Query;
  */
 
 public interface WeatherService {
-    String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?";
+    String BASE_URL = "http://api.openweathermap.org";
 
-    @GET()
-    Observable<Response<MainWeather>> getWeather(@Query("lat") float lat, @Query("lon") float lon);
+    @GET("/data/2.5/weather")
+    Call<MainWeather> getWeather(@Query("appid") String appid, @Query("lat") float lat, @Query("lon") float lon);
 }

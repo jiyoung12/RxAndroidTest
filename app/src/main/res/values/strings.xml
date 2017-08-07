@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RxAndroidExamples</string>
     <string name="kakao_app_key">7e6e479cbe10008fcaae8a2ca6a23add</string>
+    <string name="weather_app_key">14ab040dfc2cd23c5cd12d2362fd4981</string>
 </resources>
