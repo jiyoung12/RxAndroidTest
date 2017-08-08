@@ -1,12 +1,12 @@
 package com.jiyoung.rxandroidexamples.example;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jiyoung.rxandroidexamples.BaseActivity;
@@ -107,10 +107,11 @@ public class Example2Activity extends BaseActivity implements ClickListener {
 
     /**
      * 도시 리스트에 따른 뷰 변경
+     *
      * @param cities 도시 리스트
      */
     private void showSearchResult(List<String> cities) {
-        if (cities != null && cities.size() != 0 ) {
+        if (cities != null && cities.size() != 0) {
             mNoResult.setVisibility(View.GONE);
             mSearchResult.setVisibility(View.VISIBLE);
             citiesAdapter.setCities(cities);
@@ -150,10 +151,11 @@ public class Example2Activity extends BaseActivity implements ClickListener {
 
     @Override
     public void itemClicked(View view, int position) {
-        if (mSearchList != null){
+        if (mSearchList != null) {
             Log.e(mSearchList.get(position));
-            dataService.requestWeatherInfo(mSearchList.get(position));
+            Intent intent = new Intent(Example2Activity.this, Example3Activity.class);
+            intent.putExtra("city", mSearchList.get(position));
+            startActivity(intent);
         }
-        Toast.makeText(this, "position" + position, Toast.LENGTH_SHORT).show();
     }
 }

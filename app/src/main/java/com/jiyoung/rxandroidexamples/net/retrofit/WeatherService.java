@@ -14,5 +14,5 @@ public interface WeatherService {
     String BASE_URL = "http://api.openweathermap.org";
 
     @GET("/data/2.5/weather")
-    Call<MainWeather> getWeather(@Query("appid") String appid, @Query("lat") float lat, @Query("lon") float lon);
+    Call<MainWeather> getWeather(@Query("appid") String appid, @Query("q") String city);
 }

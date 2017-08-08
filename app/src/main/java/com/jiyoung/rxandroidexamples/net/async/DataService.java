@@ -11,6 +11,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -69,8 +72,18 @@ public class DataService {
                 Log.d(new String(responseBody));
                 if (eventListener != null){
 
+                    try {
+                        JSONObject object = new JSONObject(new String(responseBody));
+                        JSONObject coord = object.getJSONObject("coord");
+                        Log.d(coord.getString("lon"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     MainWeather weather = new Gson().fromJson(new String(responseBody), MainWeather.class);
                     eventListener.requestWeatherInfo_Success(weather);
+
                 }
             }
 
