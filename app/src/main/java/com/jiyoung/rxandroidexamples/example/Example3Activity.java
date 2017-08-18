@@ -1,6 +1,7 @@
 package com.jiyoung.rxandroidexamples.example;
 
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class Example3Activity extends BaseActivity {
     private String strCity;
     private TextView tv_city, tv_date, tv_temp, tv_des, tv_min, tv_max;
     private ImageView iv_icon;
+    private String dateFormmat = "hh:mm a EE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class Example3Activity extends BaseActivity {
                     MainWeather mainWeather = response.body();
                     Log.d(mainWeather.getName());
                     tv_city.setText(mainWeather.getName());
-                    tv_date.setText(mainWeather.getDt() + "");
+                    tv_date.setText(DateFormat.format(dateFormmat, mainWeather.getDt()));
                     tv_temp.setText(setTempFormatter(mainWeather.getMain().getTemp()) + "C");
                     tv_des.setText(mainWeather.getWeather()[0].getMain());
                     tv_min.setText(setTempFormatter(mainWeather.getMain().getTemp_min()) + "C");
